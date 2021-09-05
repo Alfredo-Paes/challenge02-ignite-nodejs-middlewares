@@ -24,7 +24,17 @@ function checksExistsUserAccount(request, response, next) {
 }
 
 function checksCreateTodosUserAvailability(request, response, next) {
-  // Complete aqui
+  const { user } = request;
+
+  const todosQuantity = user.todos.length;
+
+  if (!user.pro && todosQuantity >= 10) {
+    return response.status(403).json({
+      error: "Todos limit reached!",
+    });
+  }
+
+  return next();
 }
 
 function checksTodoExists(request, response, next) {
